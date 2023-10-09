@@ -7,11 +7,13 @@ git fetch origin 'refs/heads/release/*:refs/remotes/origin/release/*'
 
 # Iterate over remote branches starting with "release/"
 for branch in $(git branch -r | grep 'origin/release/' | sed 's/origin\///'); do
-    # Extract version number from branch name
-    version=$(echo "$branch" | sed 's/release\///')
 
     # Check if the branch has been merged
     if git branch --merged "origin/main" | grep -q "origin/$branch"; then
+
+        # Extract version number from branch name
+        version=$(echo "$branch" | sed 's/release\///')
+
         # Check if the tag already exists
         if git rev-parse -q --verify "v$version" >/dev/null; then
             echo "Tag v$version already exists. Skipping branch $branch."
