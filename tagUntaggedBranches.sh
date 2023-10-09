@@ -1,20 +1,20 @@
 #!/bin/bash
 
-REMOTE_REPO_URL="https://github.com/nc-hupa/testOfScriptForCreatingTags.git"  # Replace this with your remote repository URL
+REMOTE_REPO_URL="https://github.com/nc-hupa/testOfScriptForCreatingTags.git"
 
 # Fetch branches starting with "release/"
 git fetch origin 'refs/heads/release/*:refs/remotes/origin/release/*'
 
-# Check if a branch has been merged into master
+# Check if a branch has been merged into main
 function is_branch_merged {
     local branch_name=$1
-    git branch -r --merged origin/master | grep -q "origin/$branch_name"
+    git branch -r --merged origin/main | grep -q "origin/$branch_name"
     return $?
 }
 
 # Iterate over remote branches starting with "release/"
 for branch in $(git branch -r | grep 'origin/release/' | sed 's/origin\///'); do
-    # Extract version number from branch name (assuming branch name is in the format release/x.x.x)
+    # Extract version number from branch name
     version=$(echo "$branch" | sed 's/release\///')
 
     # Check if the branch has been merged into master
